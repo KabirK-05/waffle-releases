@@ -530,11 +530,9 @@ button.key:active { transform: translateY(2px); box-shadow: none; }
 .tape-wrap { position: relative; margin: 44px 0 34px; }
 .tape { transform: rotate(-1.4deg); margin: 0 -20px; padding: 12px 0; background: var(--gold); overflow: hidden; }
 .tape-run { display: flex; width: max-content; animation: tape 36s linear infinite; }
-.tape.paused .tape-run { animation-play-state: paused; }
 .tape-set { display: flex; gap: 12px; padding-right: 12px; }
 .tape-set span { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 12px; border-radius: 999px; background: #fff; font-weight: 550; white-space: nowrap; }
 @keyframes tape { to { transform: translateX(-25%); } }
-.tape-pause { position: absolute; right: 24px; bottom: -34px; border: 0; padding: 0; background: none; color: var(--muted); font: 500 12px ui-monospace, SFMono-Regular, Menlo, monospace; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .byo-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .byo-cols p { max-width: 300px; color: var(--muted); }
 

@@ -167,13 +167,11 @@ const TAPE = [
   <><ChatGPTIcon size={18} /> openai api key</>,
 ];
 
-// A slow strip of the ways to bring your own AI.
+// A slow strip of the ways to bring your own AI. It never stops.
 export function Tape() {
-  const [paused, setPaused] = useState(false);
-
   return (
     <div className="tape-wrap">
-      <div className={`tape${paused ? ' paused' : ''}`}>
+      <div className="tape">
         <div className="tape-run">
           {[0, 1, 2, 3].map((n) => (
             <div className="tape-set" key={n} aria-hidden={n > 0}>
@@ -184,9 +182,6 @@ export function Tape() {
           ))}
         </div>
       </div>
-      <button type="button" className="tape-pause" onClick={() => setPaused((p) => !p)}>
-        {paused ? 'play the tape' : 'pause the tape'}
-      </button>
     </div>
   );
 }
