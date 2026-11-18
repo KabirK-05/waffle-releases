@@ -1,0 +1,2733 @@
+/* First-run setup. Values are taken from Cluely's onboarding bundle: onboarding.css (copied as is,
+   in the .onboarding block below) and the Tailwind classes on each page, written out here. A comment
+   names the Tailwind class where it helps to check one against the other. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', sans-serif; /* --app-font-family */
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  background: #050708;
+}
+
+h1,
+h2,
+h3 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  cursor: default;
+}
+
+img,
+video,
+svg {
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 100vmax #ffffff1a;
+}
+
+/* ---------- Cluely's onboarding.css ---------- */
+
+.onboarding {
+  --onboarding-secondary-gradient: linear-gradient(to right, #fffffffa, #ffffff85);
+  color: #ffffffeb;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricprecision;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #050708;
+}
+
+.onboarding .ob3-secondary-header {
+  background: var(--onboarding-secondary-gradient);
+  color: #0000;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.onboarding .ob-primary-button {
+  color: #fff;
+  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  border: 1.5px solid #ffffff80;
+  position: relative;
+  box-shadow: 0 4px 9px #009dff1a;
+}
+
+.onboarding .ob-primary-button::after {
+  border-radius: inherit;
+  content: '';
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  pointer-events: none;
+  background: radial-gradient(100% 100% at 65.61% 81.79%, #fff 0%, #fff0 100%);
+  transition: opacity 0.3s ease-out;
+  position: absolute;
+  inset: 0;
+}
+
+.onboarding .ob-primary-button:hover::after {
+  opacity: 0.9;
+}
+
+.onboarding .ob-primary-button:disabled::after {
+  opacity: 0;
+}
+
+.onboarding .ob-primary-button:disabled {
+  box-shadow: none;
+  color: #ffffff57;
+  background: #ffffff0a;
+  border-color: #ffffff14;
+}
+
+/* ---------- utilities ---------- */
+
+.ob-rel {
+  position: relative;
+}
+.ob-full {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.ob-s25 { width: 10px; height: 10px; }
+.ob-s3 { width: 12px; height: 12px; }
+.ob-s35 { width: 14px; height: 14px; }
+.ob-s4 { width: 16px; height: 16px; }
+.ob-s45 { width: 18px; height: 18px; }
+.ob-s5 { width: 20px; height: 20px; }
+.ob-s6 { width: 24px; height: 24px; }
+.ob-s10 { width: 40px; height: 40px; }
+.ob-s18 { width: 18px; height: 18px; }
+.ob-s19 { width: 19px; height: 19px; }
+.ob-s21 { width: 21px; height: 21px; }
+
+.ob-ico {
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ob-fill {
+  flex-shrink: 0;
+  fill: currentColor;
+}
+.ob-stroke-225 { stroke-width: 2.25; }
+.ob-stroke-23 { stroke-width: 2.3; }
+.ob-stroke-375 { stroke-width: 3.75; }
+
+.ob-mark {
+  color: #fff;
+}
+
+.ob-logo.logo-claude {
+  fill: #d97757; /* Claude's brand orange, as in Settings */
+}
+.ob-logo.logo-chatgpt {
+  fill: #fff;
+}
+
+/* ---------- page (onboarding-page) ---------- */
+
+/* app-region-drag fixed inset-x-0 top-0 z-50 h-10 */
+.ob-drag {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: 40px;
+  -webkit-app-region: drag;
+}
+
+/* flex h-full w-full flex-row overflow-hidden bg-[#050708] text-white */
+.ob-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #050708;
+  color: #fff;
+}
+
+/* relative z-10 flex h-full w-[min(32rem,40vw)] min-w-[27rem] max-w-[32rem] shrink-0 flex-col items-center
+   justify-center border-white/[0.07] border-r bg-[#0b0d0e]/96 px-10 py-9 */
+.ob-left {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  height: 100%;
+  width: min(32rem, 40vw);
+  min-width: 27rem;
+  max-width: 32rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgb(255 255 255 / 0.07);
+  background: rgb(11 13 14 / 0.96);
+  padding: 36px 40px;
+}
+.ob-justify-between {
+  justify-content: space-between;
+}
+.ob-justify-center {
+  justify-content: center;
+}
+
+/* relative flex h-full min-w-0 flex-1 flex-col items-center justify-center overflow-hidden p-6 xl:p-8 */
+.ob-right {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-width: 0;
+  flex: 1 1 0%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px;
+  background: radial-gradient(130% 120% at 55% 22%, rgba(28, 36, 40, 0.78) 0%, rgba(9, 12, 13, 0.97) 48%, rgba(4, 6, 7, 1) 100%);
+}
+@media (min-width: 1280px) {
+  .ob-right {
+    padding: 32px;
+  }
+}
+.ob-right.ob-p5 {
+  padding: 20px;
+}
+.ob-right.ob-px6 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.ob-right.ob-px5 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* The 30px grid (an SVG of 1px lines in Cluely), faded out from 50% 35%. */
+.ob-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: -0.5px -0.5px;
+  -webkit-mask-image: radial-gradient(circle at 50% 35%, black 80px, transparent calc(100% - 180px));
+  mask-image: radial-gradient(circle at 50% 35%, black 80px, transparent calc(100% - 180px));
+}
+
+/* pointer-events-none absolute inset-0 bg-[radial-gradient(90%_80%_at_50%_90%,rgba(41,76,93,0.16),transparent_55%)] */
+.ob-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(90% 80% at 50% 90%, rgba(41, 76, 93, 0.16), transparent 55%);
+}
+
+/* z-10 flex h-full min-h-0 w-full min-w-0 max-w-full flex-col items-center justify-center */
+.ob-right-content {
+  z-index: 10;
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* absolute left-1/2 w-[min(460px,calc(100%-3rem))] -translate-x-1/2 text-center font-medium text-2xl
+   text-white/82, bottom 2.5rem */
+.ob-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 2.5rem;
+  width: min(460px, calc(100% - 3rem));
+  transform: translateX(-50%);
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: rgb(255 255 255 / 0.82);
+}
+
+/* ---------- buttons (onboarding-button) ---------- */
+
+/* inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium text-sm transition-all
+   disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 */
+.ob-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.ob-btn-default {
+  height: 44px;
+  width: 100%;
+}
+.ob-btn-fit {
+  height: 40px;
+  width: fit-content;
+  padding: 0 16px;
+}
+.ob-btn-primary {
+  color: #fff;
+  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  border: 1.5px solid #ffffff80;
+  position: relative;
+  box-shadow: 0 4px 9px #009dff1a;
+}
+.ob-btn-primary::after {
+  border-radius: inherit;
+  content: '';
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  pointer-events: none;
+  background: radial-gradient(100% 100% at 65.61% 81.79%, #fff 0%, #fff0 100%);
+  transition: opacity 0.3s ease-out;
+  position: absolute;
+  inset: 0;
+}
+.ob-btn-primary:hover::after {
+  opacity: 0.9;
+}
+.ob-btn-primary:disabled {
+  box-shadow: none;
+  color: #ffffff57;
+  background: #ffffff0a;
+  border-color: #ffffff14;
+}
+.ob-btn-primary:disabled::after {
+  opacity: 0;
+}
+/* bg-transparent text-white/48 hover:bg-white/[0.06] hover:text-white/82 */
+.ob-btn-ghost {
+  background: transparent;
+  color: rgb(255 255 255 / 0.48);
+}
+.ob-btn-ghost:hover {
+  background: rgb(255 255 255 / 0.06);
+  color: rgb(255 255 255 / 0.82);
+}
+/* h-12 rounded-[1rem], on the demo pages */
+.ob-btn-demo {
+  height: 48px;
+  border-radius: 1rem;
+}
+
+/* flex h-12 w-full items-center justify-center gap-3 rounded-[1rem] border border-white/[0.08] bg-black/[0.08]
+   font-semibold text-[15px] text-white/30 */
+.ob-wait {
+  display: flex;
+  height: 48px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 1rem;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgb(0 0 0 / 0.08);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22.5px;
+  color: rgb(255 255 255 / 0.3);
+}
+
+/* absolute top-12 left-11 z-10 inline-flex items-center gap-1 font-medium text-sm text-white/30
+   transition-colors hover:text-white/72 */
+.ob-back {
+  position: absolute;
+  top: 48px;
+  left: 44px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.3);
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-back:hover {
+  color: rgb(255 255 255 / 0.72);
+}
+
+/* ---------- welcome (Cluely's sign-in page) ---------- */
+
+/* flex w-full max-w-[24rem] flex-col items-center gap-9 */
+.ob-welcome {
+  display: flex;
+  width: 100%;
+  max-width: 24rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+.ob-welcome-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+/* inline-flex items-center gap-2 text-white/92; logo size-[23px]; name font-semibold text-[23px] leading-none */
+.ob-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgb(255 255 255 / 0.92);
+}
+.ob-brand-mark {
+  width: 23px;
+  height: 23px;
+}
+.ob-brand span {
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 1;
+}
+.ob-welcome-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+/* font-medium text-4xl tracking-[-1.254px] */
+.ob-title-4xl {
+  font-weight: 500;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  letter-spacing: -1.254px;
+}
+/* font-medium text-[#A3A3A5] text-lg tracking-[-0.352px] */
+.ob-welcome-sub {
+  font-weight: 500;
+  color: #a3a3a5;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  letter-spacing: -0.352px;
+}
+
+/* ---------- setup pages: choose your AI, permissions ---------- */
+
+/* flex w-full max-w-[25rem] flex-col items-center gap-8 */
+.ob-setup {
+  display: flex;
+  width: 100%;
+  max-width: 25rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.ob-setup h1 {
+  text-align: center;
+}
+.ob-rows {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* A permission row wrapper: faded and shrunk while it is a later step (spring: damping 22, stiffness 240). */
+.ob-row-wrap {
+  width: 100%;
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.ob-row-wrap.is-dim {
+  opacity: 0.5;
+  transform: scale(0.96);
+}
+.ob-row-wrap:has(.ob-row.is-live:hover) {
+  transform: scale(1.015);
+}
+
+/* flex w-full items-start justify-between rounded-xl border border-white/[0.08] bg-white/[0.035] p-3.5 text-left */
+.ob-row {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 12px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgb(255 255 255 / 0.035);
+  padding: 14px;
+  text-align: left;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-row.is-live {
+  background: rgb(255 255 255 / 0.045);
+}
+.ob-row.is-live:hover {
+  background: rgb(255 255 255 / 0.075);
+}
+.ob-row-wrap.is-chosen .ob-row {
+  border-color: rgb(255 255 255 / 0.16);
+  background: rgb(255 255 255 / 0.075);
+}
+.ob-row-main {
+  display: flex;
+  flex: 1 1 0%;
+  gap: 12px;
+}
+/* relative mt-0.5 size-5 shrink-0 text-white/46 [&>svg]:size-5 */
+.ob-row-icon {
+  position: relative;
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: rgb(255 255 255 / 0.46);
+}
+.ob-row-icon > svg {
+  width: 20px;
+  height: 20px;
+}
+/* absolute top-[0.6rem] left-[0.6rem]; dot size-3.5 rounded-full bg-[#3DB985] text-white */
+.ob-row-badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ob-badge-in 0.2s ease-out both;
+}
+.ob-row-badge-dot {
+  display: flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #3db985;
+  color: #fff;
+}
+@keyframes ob-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+.ob-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ob-row-text h3 {
+  color: #ffffffeb;
+}
+/* text-sm text-white/42 */
+.ob-row-desc {
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.42);
+}
+
+/* inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all;
+   bg-white/14, or bg-[#3DB985] when on; thumb block size-4 rounded-full bg-white */
+.ob-switch {
+  display: inline-flex;
+  height: 1.15rem;
+  width: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: rgb(255 255 255 / 0.14);
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-switch.is-on {
+  background: #3db985;
+}
+.ob-switch.is-faded {
+  opacity: 0.5;
+}
+.ob-switch-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #fff;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-switch.is-on .ob-switch-thumb {
+  transform: translateX(calc(100% - 2px));
+}
+
+/* ---------- permission pictures ---------- */
+
+.ob-perm-right {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.ob-perm-stage {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+/* w-60 rounded-[1.5rem] shadow-lg */
+.ob-dialog-sm {
+  width: 240px;
+  height: auto;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+/* flex w-full flex-col items-center gap-5 */
+.ob-perm-pair {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+/* w-[min(78%,42rem)] rounded-xl shadow-lg */
+.ob-perm-dialog {
+  width: min(78%, 42rem);
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+/* w-[min(78%,34rem)] */
+.ob-perm-settings {
+  width: min(78%, 34rem);
+  height: auto;
+}
+/* w-2/3 border-white/10, fading in after 0.3s */
+.ob-perm-hr {
+  width: 66.666667%;
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  animation: ob-fade-in 0.3s ease-out 0.3s both;
+}
+
+/* Enter: opacity 0 → 1, scale 0.9 → 1 on a stiff spring (damping 60, stiffness 400). Exit: 0.3s ease-out. */
+.ob-pop {
+  animation: ob-pop-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ob-pop.ob-delay {
+  animation-delay: 0.1s;
+}
+.ob-pop-spring {
+  animation: ob-pop-in 0.5s cubic-bezier(0.34, 1.45, 0.64, 1) both; /* damping 14, stiffness 220 */
+}
+.ob-pop-out,
+.ob-pop-out * {
+  animation: ob-pop-out 0.3s ease-out both !important;
+}
+@keyframes ob-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+@keyframes ob-pop-out {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+@keyframes ob-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* flex size-[4.5rem] items-center justify-center rounded-full bg-[#5FAF78] text-white
+   shadow-[0_14px_34px_rgba(95,175,120,0.18)]; "All set!" font-medium text-white/82 text-xl */
+.ob-all-set {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.ob-all-set-badge {
+  display: flex;
+  width: 4.5rem;
+  height: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #5faf78;
+  color: #fff;
+  box-shadow: 0 14px 34px rgba(95, 175, 120, 0.18);
+}
+.ob-all-set p {
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.82);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+/* The cursor starts hidden at (130, 130) and springs to each target. */
+.ob-cursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -24px 0 0 -22.5px;
+  --x: 130px;
+  --y: 130px;
+  opacity: 0;
+  transform: translate(var(--x), var(--y));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-out;
+  pointer-events: none;
+}
+.ob-cursor.is-shown {
+  opacity: 1;
+}
+.ob-cursor-edge {
+  mix-blend-mode: overlay;
+}
+
+/* ---------- demo pages ---------- */
+
+/* flex w-full max-w-[29rem] flex-col items-center text-center */
+.ob-col {
+  display: flex;
+  width: 100%;
+  max-width: 29rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+/* font-semibold text-[38px] text-white leading-[1.15] tracking-[-1.55px] */
+.ob-h1 {
+  font-weight: 600;
+  font-size: 38px;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -1.55px;
+}
+.ob-h1.ob-min-h {
+  min-height: 2.4em;
+}
+/* mt-4 max-w-[24rem] text-[13px] text-white/34 leading-5 */
+.ob-sub {
+  margin-top: 16px;
+  max-width: 24rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.34);
+}
+.ob-sub.ob-sub-26 {
+  max-width: 26rem;
+}
+.ob-sub.ob-sub-28 {
+  max-width: 28rem;
+}
+/* mt-11 w-full (mt-9 on the ask page) */
+.ob-action {
+  margin-top: 44px;
+  width: 100%;
+}
+
+/* Heading cross-fade: out 6px up, in from 6px below, 0.2s ease-out each. */
+.ob-swap {
+  display: inline-block;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.ob-swap.ob-swap-out {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.ob-swap.ob-swap-from {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: none;
+}
+
+/* "Press ↵ to get / an instant answer": flex flex-wrap items-center justify-center gap-x-3 gap-y-2 */
+.ob-press {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+/* inline-flex h-[1.05em] min-w-[1.05em] items-center justify-center rounded-[0.4em] bg-white/[0.14] px-[0.32em]
+   text-white/86; icon size-[0.6em] stroke-[2.2] */
+.ob-press-key {
+  display: inline-flex;
+  height: 1.05em;
+  min-width: 1.05em;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4em;
+  background: rgb(255 255 255 / 0.14);
+  padding: 0 0.32em;
+  vertical-align: middle;
+  color: rgb(255 255 255 / 0.86);
+}
+.ob-press-key-ico {
+  width: 0.6em;
+  height: 0.6em;
+  stroke-width: 2.2;
+}
+.ob-basis-full {
+  flex-basis: 100%;
+}
+.ob-press ~ .ob-action {
+  margin-top: 36px;
+}
+
+/* Keycaps (hide and move demos). Off: bg-white/10, face bg-white/[0.06]. Held: scale-95, a blue gradient
+   rim (#87C8F7 → #2383C7) and a radial blue face. */
+.ob-keys-row {
+  margin-top: 44px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.18s ease-out;
+}
+.ob-keys-row.is-pressed {
+  transform: scale(1.03);
+}
+.ob-plus {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  color: rgb(255 255 255 / 0.4);
+}
+.ob-kbd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  background: rgb(255 255 255 / 0.1);
+  padding: 1.5px 1.5px 3px;
+  color: rgb(255 255 255 / 0.64);
+  transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-kbd-face {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255 255 255 / 0.06);
+  transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-kbd.is-active {
+  transform: scale(0.95);
+  background: linear-gradient(to bottom, #87c8f7, #2383c7);
+  color: #fff;
+}
+.ob-kbd.is-active .ob-kbd-face {
+  background: radial-gradient(94.53% 94.53% at 55.79% 65.24%, #8dc7f6 0%, #497ee9 100%);
+}
+/* modifier: h-16 w-20 rounded-xl; face rounded-[12px] px-2 pb-2, justify-end */
+.ob-kbd-mod {
+  height: 64px;
+  width: 80px;
+  border-radius: 12px;
+}
+.ob-kbd-mod .ob-kbd-face {
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 12px;
+  padding: 0 8px 8px;
+}
+.ob-kbd-cmd {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 18px;
+  line-height: 1;
+}
+.ob-kbd-word {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+}
+.ob-kbd-ctrl {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+/* backslash key: size-16 rounded-xl, text-white/44 when off */
+.ob-kbd-square {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  color: rgb(255 255 255 / 0.44);
+}
+.ob-kbd-square .ob-kbd-face {
+  border-radius: 12px;
+}
+/* arrow keys: size-9 rounded-lg p-[1px] pb-[2px]; face rounded-[7px] */
+.ob-kbd-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  padding: 1px 1px 2px;
+}
+.ob-kbd-arrow .ob-kbd-face {
+  border-radius: 7px;
+}
+.ob-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.ob-arrows-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Skip: appears after 2s while the shortcut has not been used twice; h-9 w-fit rounded-[0.8rem] px-3 */
+.ob-skip-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.24s ease-out, transform 0.24s ease-out;
+}
+.ob-skip-wrap.is-ready.is-shown {
+  opacity: 1;
+  transform: none;
+  transition-delay: 2s;
+}
+.ob-skip {
+  height: 36px;
+  border-radius: 0.8rem;
+  padding: 0 12px;
+  color: rgb(255 255 255 / 0.46);
+}
+.ob-skip:hover {
+  color: rgb(255 255 255 / 0.82);
+}
+
+.ob-center-wrap {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  max-width: 44rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- the ask box mock-ups ---------- */
+
+/* desktop-ui card: rounded-[1.35rem] border border-white/[0.08] bg-[rgba(20,22,24,0.74)] backdrop-blur-2xl
+   (w-full overflow-visible on these pages) */
+.ob-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  border-radius: 1.35rem;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgba(20, 22, 24, 0.74);
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 22px 70px rgba(0, 0, 0, 0.42);
+}
+/* relative flex flex-col overflow-hidden rounded-[1.15rem] bg-white/[0.055] text-sm */
+.ob-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: rgb(255 255 255 / 0.055);
+  font-size: 14px;
+  line-height: 20px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 0 0 1px rgba(255, 255, 255, 0.055), 0 28px 70px rgba(0, 0, 0, 0.36);
+}
+
+/* relative flex h-[3.5rem] shrink-0 items-center border-white/[0.06] border-b pr-12 pl-4 */
+.ob-input {
+  position: relative;
+  display: flex;
+  height: 3.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  padding: 0 48px 0 16px;
+}
+.ob-input.ob-input-notes {
+  padding-right: 12px;
+}
+.ob-input.is-ended {
+  background: rgb(255 255 255 / 0.02);
+}
+/* truncate font-medium text-[14px] text-white/50 */
+.ob-input-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgb(255 255 255 / 0.5);
+}
+.ob-input-send {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+/* The blinking caret: mr-1 h-4 w-px rounded-full bg-white/72; opacity [1,1,0,0,1] over 1.05s, linear, forever. */
+.ob-caret {
+  margin-right: 4px;
+  height: 16px;
+  width: 1px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.72);
+  animation: ob-blink 1.05s linear infinite;
+}
+.ob-caret.ob-caret-lg {
+  margin-right: 6px;
+  height: 20px;
+}
+.ob-caret.ob-caret-bright {
+  background: rgb(255 255 255 / 0.86);
+}
+@keyframes ob-blink {
+  0%,
+  25% {
+    opacity: 1;
+  }
+  50%,
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* inline-flex size-6 items-center justify-center rounded-md bg-white/[0.13] text-white/72 */
+.ob-chip {
+  display: inline-flex;
+  height: 24px;
+  min-width: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.13);
+  padding: 0 6px;
+  color: rgb(255 255 255 / 0.72);
+}
+
+/* relative flex h-11 shrink-0 items-center justify-center border-white/[0.06] border-t bg-black/[0.13] px-2.5 */
+.ob-toolbar {
+  position: relative;
+  display: flex;
+  height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  background: rgb(0 0 0 / 0.13);
+  padding: 0 10px;
+}
+.ob-toolbar-start {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+.ob-toolbar-end {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+/* flex items-center gap-0.5 text-white/64 */
+.ob-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: rgb(255 255 255 / 0.64);
+}
+/* flex size-8 shrink-0 items-center justify-center text-white/64 */
+.ob-tool {
+  position: relative;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255 255 255 / 0.64);
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ob-tool.is-on {
+  color: #fff;
+}
+/* mx-2 h-5 w-px bg-white/[0.1] */
+.ob-divider {
+  margin: 0 8px;
+  height: 20px;
+  width: 1px;
+  background: rgb(255 255 255 / 0.1);
+}
+/* flex items-center gap-2 font-semibold text-[11px] text-white/68 */
+.ob-history {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 11px;
+  color: rgb(255 255 255 / 0.68);
+}
+
+/* ToggleHintPulse: three rings, size-9 rounded-[10px] border border-white/40; opacity [0,.6,0],
+   scale [.7,1,1.25], 1.45s ease-out, 0.18s apart, then 0.4s rest. */
+.ob-pulse {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+}
+.ob-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 0.4);
+  opacity: 0;
+  animation: ob-ring 1.85s ease-out infinite;
+}
+.ob-ring-1 {
+  animation-delay: 0.18s;
+}
+.ob-ring-2 {
+  animation-delay: 0.36s;
+}
+@keyframes ob-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  39% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  78%,
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+/* Session controls: pause size-7; stop size-[22px] rounded-full bg-white; clock text-[11px] tabular-nums */
+.ob-session {
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ob-session-pause {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #fff;
+  transition: background-color 150ms;
+}
+.ob-session-pause:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+.ob-session-stop {
+  position: relative;
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #fff;
+  color: rgba(9, 14, 15, 0.9);
+  transition: background-color 150ms;
+}
+.ob-session-stop:hover {
+  background: rgb(255 255 255 / 0.9);
+}
+.ob-clock {
+  margin-left: 4px;
+  min-width: 2.4rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.72);
+  font-variant-numeric: tabular-nums;
+}
+
+/* hide demo: the box fades (opacity 0, scale .97, y 6) in 0.14s */
+.ob-hide-box {
+  width: 100%;
+  max-width: 35rem;
+  transition: opacity 0.14s cubic-bezier(0.22, 1, 0.36, 1), transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ob-hide-box.is-hidden {
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+}
+
+/* move demo: relative w-full max-w-[34rem]; the box springs (damping 22, mass .55, stiffness 360) */
+.ob-move-area {
+  position: relative;
+  width: 100%;
+  max-width: 34rem;
+}
+.ob-mover {
+  width: 100%;
+  transition: transform 0.32s cubic-bezier(0.3, 1.35, 0.5, 1);
+}
+/* pointer-events-none absolute flex items-center justify-center text-white/30 */
+.ob-guide {
+  pointer-events: none;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255 255 255 / 0.3);
+}
+.ob-guide-up {
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 8px;
+  transform: translateX(-50%);
+  flex-direction: column;
+}
+.ob-guide-down {
+  top: 100%;
+  left: 50%;
+  margin-top: 8px;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+}
+.ob-guide-left {
+  top: 50%;
+  right: 100%;
+  margin-right: 8px;
+  transform: translateY(-50%);
+}
+.ob-guide-right {
+  top: 50%;
+  left: 100%;
+  margin-left: 8px;
+  transform: translateY(-50%);
+  flex-direction: row-reverse;
+}
+.ob-guide-v {
+  height: 40px;
+  width: 1px;
+  background: rgb(255 255 255 / 0.18);
+}
+.ob-guide-v-up {
+  margin-top: 4px;
+}
+.ob-guide-v-down {
+  margin-bottom: 4px;
+}
+.ob-guide-h {
+  height: 1px;
+  width: 24px;
+  background: rgb(255 255 255 / 0.18);
+}
+.ob-guide-h-left {
+  margin-left: 4px;
+}
+.ob-guide-h-right {
+  margin-right: 4px;
+}
+
+/* A clickable toolbar icon (listen, undetectable): relative size-8 with the hint rings behind it. */
+.ob-tool-btn {
+  cursor: default;
+}
+
+/* undetectable: box scales to .95 and a dotted ring shows (absolute inset-[-12px] rounded-[1.55rem]
+   border-[4px] border-white/22 border-dotted) */
+.ob-undetect {
+  position: relative;
+  width: 100%;
+  transition: transform 0.24s ease-out;
+}
+.ob-undetect.is-on {
+  transform: scale(0.95);
+}
+.ob-undetect-ring {
+  pointer-events: none;
+  position: absolute;
+  inset: -12px;
+  border-radius: 1.55rem;
+  border: 4px dotted rgb(255 255 255 / 0.22);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.ob-undetect.is-on .ob-undetect-ring {
+  opacity: 1;
+}
+
+/* notes demo: the notes unfold (height auto, 0.32s, ease [.22,1,.36,1]) */
+.ob-notes {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  border-bottom: 0 solid rgb(255 255 255 / 0.06);
+  transition: grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ob-notes.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  border-bottom-width: 1px;
+}
+.ob-notes > article {
+  min-height: 0;
+  overflow: hidden;
+}
+/* dark flex max-h-[16rem] flex-col gap-3 overflow-y-auto px-4 py-3.5 */
+.ob-notes-article {
+  display: flex;
+  max-height: 16rem;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 14px 16px;
+  scrollbar-width: none;
+}
+.ob-notes-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* font-semibold text-[18px] text-white leading-tight tracking-[-0.01em] */
+.ob-notes-head h2 {
+  font-weight: 600;
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.ob-note-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+/* inline-flex h-7 items-center gap-1.5 rounded-full bg-white/[0.07] px-2.5 font-medium text-[12px] text-white/58 */
+.ob-note-chip {
+  display: inline-flex;
+  height: 28px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.07);
+  padding: 0 10px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.58);
+}
+.ob-note-chip-ico {
+  color: rgb(255 255 255 / 0.48);
+}
+/* mb-1.5 font-semibold text-[10px] text-white/34 uppercase tracking-[0.14em] */
+.ob-notes-label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 10px;
+  color: rgb(255 255 255 / 0.34);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+/* text-[13px] text-white/76 leading-5, and Cluely's .notes-demo-summary rules */
+.notes-demo-summary {
+  font-size: 13px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.76);
+}
+.notes-demo-summary > :first-child {
+  margin-top: 0;
+}
+.notes-demo-summary > :last-child {
+  margin-bottom: 0;
+}
+.notes-demo-summary h2 {
+  color: #ffffffd6;
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.notes-demo-summary h2:first-child {
+  margin-top: 0;
+}
+.notes-demo-summary p {
+  color: #ffffffc2;
+  margin: 0.4rem 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.notes-demo-summary ul {
+  margin: 0.25rem 0;
+  padding-left: 1rem;
+}
+.notes-demo-summary li {
+  color: #ffffffc2;
+  padding-left: 0.1rem;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.notes-demo-summary li::marker {
+  color: #ffffff5c;
+}
+.notes-demo-summary strong {
+  color: #ffffffeb;
+  font-weight: 600;
+}
+/* inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 font-semibold text-[12px] text-white/52 */
+.ob-show-transcript {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.52);
+  transition: background-color 150ms, color 150ms, scale 150ms;
+}
+.ob-show-transcript:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: rgb(255 255 255 / 0.76);
+}
+
+/* ---------- the meeting behind the listen, notes and undetectable demos ---------- */
+
+/* relative flex h-fit w-full max-w-[41rem] flex-col items-center pt-8 */
+.ob-stage {
+  position: relative;
+  display: flex;
+  height: fit-content;
+  width: 100%;
+  max-width: 41rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+}
+/* absolute top-[-1.75rem] left-1/2 w-full max-w-[35rem] -translate-x-1/2 px-4 */
+.ob-stage-box {
+  position: absolute;
+  top: -1.75rem;
+  left: 50%;
+  width: 100%;
+  max-width: 35rem;
+  transform: translateX(-50%);
+  padding: 0 16px;
+}
+/* flex w-full max-w-[39rem] items-center justify-center, holding a 1.6 frame (Cluely's clip is
+   1600 × 1000). The call window inside is laid out in that clip's pixels: --u is one of them. */
+.ob-meeting {
+  position: relative;
+  width: 100%;
+  max-width: 39rem;
+  aspect-ratio: 1.6;
+  container-type: inline-size;
+  --u: calc(100cqw / 1600);
+}
+/* window: x 83–1503, y 30–945, rounded */
+.ob-call {
+  position: absolute;
+  left: calc(83 * var(--u));
+  top: calc(30 * var(--u));
+  width: calc(1420 * var(--u));
+  height: calc(915 * var(--u));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: calc(32 * var(--u));
+  background: #02030a;
+}
+/* title bar: 48 tall, #1c1d24, traffic lights 16 across at x 111 / 140 / 169 */
+.ob-call-bar {
+  display: flex;
+  height: calc(48 * var(--u));
+  flex: none;
+  align-items: center;
+  gap: calc(13 * var(--u));
+  padding-left: calc(20 * var(--u));
+  background: #1c1d24;
+}
+.ob-call-dot {
+  width: calc(16 * var(--u));
+  height: calc(16 * var(--u));
+  border-radius: 999px;
+}
+.ob-call-dot.red { background: #e8695d; }
+.ob-call-dot.yellow { background: #d3a24c; }
+.ob-call-dot.green { background: #61c352; }
+/* two square tiles, 664 wide, 36 apart, from x 111 and y 132 */
+.ob-call-stage {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: calc(36 * var(--u));
+  padding: calc(54 * var(--u)) 0 0 calc(28 * var(--u));
+}
+.ob-call-tile {
+  width: calc(664 * var(--u));
+  height: calc(664 * var(--u));
+  overflow: hidden;
+  border-radius: calc(18 * var(--u));
+  background: #111318;
+}
+.ob-call-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* controls: 100 tall, #1c1d24; Unmute and Start Video on the left, a dim red End on the right */
+.ob-call-controls {
+  display: flex;
+  height: calc(100 * var(--u));
+  flex: none;
+  align-items: center;
+  gap: calc(28 * var(--u));
+  padding: 0 calc(32 * var(--u));
+  background: #1c1d24;
+}
+.ob-call-ctl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(6 * var(--u));
+  font-size: calc(19 * var(--u));
+  line-height: 1;
+  color: #66676f;
+}
+.ob-call-ctl svg {
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  stroke-width: 2.2;
+}
+.ob-call-end {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: calc(80 * var(--u));
+  height: calc(45 * var(--u));
+  border-radius: calc(8 * var(--u));
+  background: #6b3032;
+  font-size: calc(22 * var(--u));
+  color: #c98a92;
+}
+
+/* ---------- real-time demo (welcome and choose-your-AI pages) ---------- */
+
+.ob-rt {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ob-rt-stage {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 41rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+}
+/* absolute top-[-2rem] left-1/2 flex w-full max-w-[35rem] -translate-x-1/2 flex-col items-center px-4 */
+.ob-rt-over {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  display: flex;
+  width: 100%;
+  max-width: 35rem;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+}
+/* flex w-full flex-col overflow-hidden rounded-[18px] border border-white/[0.08] bg-[rgba(22,24,26,0.72)]
+   backdrop-blur-2xl; height 100 → 292 on a spring (damping 30, mass .8, stiffness 320) */
+.ob-rt-card {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgba(22, 24, 26, 0.72);
+  color: #fff;
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 22px 70px rgba(0, 0, 0, 0.42);
+  transition: height 0.42s cubic-bezier(0.3, 1.2, 0.5, 1);
+}
+.ob-rt-card.is-chat {
+  height: 292px;
+}
+/* flex h-14 shrink-0 items-center gap-3 border-white/[0.06] border-b bg-white/[0.06] px-3 */
+.ob-rt-head {
+  display: flex;
+  height: 56px;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  background: rgb(255 255 255 / 0.06);
+  padding: 0 12px;
+}
+/* flex size-10 shrink-0 items-center justify-center rounded-[14px] bg-white/[0.09] text-white/86 */
+.ob-rt-back {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.09);
+  color: rgb(255 255 255 / 0.86);
+}
+/* flex min-w-0 flex-1 items-center overflow-hidden text-[15px]; text block truncate text-white/42 */
+.ob-rt-ask {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0%;
+  align-items: center;
+  overflow: hidden;
+  font-size: 15px;
+}
+.ob-rt-ask span:last-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(255 255 255 / 0.42);
+}
+/* flex size-8 shrink-0 items-center justify-center rounded-[10px] text-white; bg white/13, or white/26 and
+   scale .9 while pressed (0.16s ease-out) */
+.ob-rt-send {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.13);
+  transition: background-color 0.16s ease-out, transform 0.16s ease-out;
+}
+.ob-rt-send.is-pressed {
+  background: rgba(255, 255, 255, 0.26);
+  transform: scale(0.9);
+}
+/* relative min-h-0 flex-1 px-4 py-3.5; enters from y 8, leaves to y -8 (0.2s) */
+.ob-rt-body {
+  position: relative;
+  min-height: 0;
+  flex: 1 1 0%;
+  padding: 14px 16px;
+  display: none;
+}
+.ob-rt-body.is-shown {
+  display: block;
+  animation: ob-rise-8 0.2s ease-out both;
+}
+@keyframes ob-rise-8 {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.ob-rt-answer {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding-right: 4.5rem;
+}
+.ob-rt-viewed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.48);
+  font-size: 12px;
+  line-height: 16px;
+}
+.ob-rt-answer p {
+  max-width: 30rem;
+  font-size: 14px;
+  color: rgb(255 255 255 / 0.84);
+  line-height: 24px;
+}
+/* absolute top-4 right-4 rounded-xl bg-white/[0.12] px-4 py-2 font-semibold text-sm text-white/86; enters
+   from x 8 after 0.12s */
+.ob-rt-assist {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.12);
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.86);
+  animation: ob-slide-x 0.2s ease-out 0.12s both;
+}
+@keyframes ob-slide-x {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+/* flex h-12 shrink-0 items-center border-white/[0.06] border-t bg-black/[0.16] px-4 */
+.ob-rt-foot {
+  display: flex;
+  height: 48px;
+  flex-shrink: 0;
+  align-items: center;
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  background: rgb(0 0 0 / 0.16);
+  padding: 0 16px;
+}
+.ob-rt-tools {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(255 255 255 / 0.68);
+}
+.ob-rt-tool {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.ob-rt-tool > svg {
+  width: 20px;
+  height: 20px;
+}
+.ob-rt-tool > svg.ob-s21 {
+  width: 21px;
+  height: 21px;
+}
+.ob-rt-divider {
+  margin: 0 4px;
+  height: 24px;
+  width: 1px;
+  background: rgb(255 255 255 / 0.12);
+}
+.ob-rt-end {
+  display: flex;
+  min-width: 112px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.ob-rt-end-label {
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.72);
+}
+.ob-keys {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* inline-flex h-[1.45rem] min-w-6 items-center justify-center rounded-md bg-white/[0.13] px-1.5 font-mono
+   font-semibold text-[11px] text-white/68 leading-none */
+.ob-keycap {
+  display: inline-flex;
+  height: 1.45rem;
+  min-width: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.13);
+  padding: 0 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.68);
+}
+.ob-keycap.ob-keycap-sq {
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+}
+/* ob3-secondary-header text-center font-medium text-[clamp(1.55rem,2.4vw,2rem)] tracking-[-0.6px] */
+.ob-rt-caption {
+  text-align: center;
+  font-weight: 500;
+  font-size: clamp(1.55rem, 2.4vw, 2rem);
+  letter-spacing: -0.6px;
+  line-height: 1.33;
+}
+
+/* ---------- the ask demo ("Press ↵") ---------- */
+
+/* flex h-full min-h-0 w-full max-w-[44rem] flex-col items-center justify-center overflow-hidden */
+.ob-mode-wrap {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  max-width: 44rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ob-mode-stage {
+  position: relative;
+  display: flex;
+  height: fit-content;
+  width: 100%;
+  max-width: 41rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+}
+/* flex w-full max-w-[34rem] flex-col overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#0a0c0e]
+   shadow-[0_30px_80px_rgba(0,0,0,0.5)] */
+.ob-shot {
+  display: flex;
+  width: 100%;
+  max-width: 34rem;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: #0a0c0e;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+/* flex h-7 shrink-0 items-center gap-1.5 border-white/[0.06] border-b bg-[#15181b] px-3 */
+.ob-shot-bar {
+  display: flex;
+  height: 28px;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  background: #15181b;
+  padding: 0 12px;
+}
+.ob-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+.ob-dot-red { background: #ff5f57; }
+.ob-dot-yellow { background: #febc2e; }
+.ob-dot-green { background: #28c840; }
+.ob-shot-img {
+  background: #000;
+}
+.ob-shot-img img {
+  width: 100%;
+  height: auto;
+}
+/* absolute top-[-2rem] left-1/2 w-full max-w-[35rem] -translate-x-1/2 px-4; enters from y 10 in 0.28s */
+.ob-mode-over {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  width: 100%;
+  max-width: 35rem;
+  transform: translateX(-50%);
+  padding: 0 16px;
+}
+.ob-rise {
+  animation: ob-rise-10 0.28s ease-out both;
+}
+@keyframes ob-rise-10 {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+/* relative flex flex-col overflow-hidden rounded-[1.15rem] bg-white/[0.055] text-sm; height 7.25rem, or 22.5rem
+   with the answer */
+.ob-mode-box {
+  position: relative;
+  display: flex;
+  height: 7.25rem;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: rgb(255 255 255 / 0.055);
+  font-size: 14px;
+  line-height: 20px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 0 0 1px rgba(255, 255, 255, 0.055), 0 28px 70px rgba(0, 0, 0, 0.36);
+}
+.ob-mode-box.is-done {
+  height: 22.5rem;
+}
+/* relative flex h-[4.15rem] shrink-0 items-center border-white/[0.06] border-b pr-16 pl-4;
+   text truncate font-medium text-[15px] text-white/50 */
+.ob-mode-input {
+  position: relative;
+  display: flex;
+  height: 4.15rem;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  padding: 0 64px 0 16px;
+}
+.ob-mode-input span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 15px;
+  color: rgb(255 255 255 / 0.5);
+}
+/* flex min-h-0 flex-1 flex-col items-stretch gap-2 overflow-y-auto px-5 pt-4 pb-3 */
+.ob-mode-body {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 0%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  overflow-y: auto;
+  padding: 16px 20px 12px;
+  scrollbar-width: thin;
+}
+.ob-mode-viewed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.52);
+}
+/* text-[14px] text-white/82 leading-6, with the streamdown markdown styles */
+.ob-mode-answer {
+  font-size: 14px;
+  line-height: 24px;
+  color: rgb(255 255 255 / 0.82);
+  user-select: text;
+}
+.ob-mode-answer p {
+  margin: 0 0 12px;
+}
+.ob-mode-answer ul {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.ob-mode-answer li {
+  padding-left: 0.25rem;
+}
+.ob-mode-answer li::marker {
+  color: rgb(255 255 255 / 0.4);
+}
+.ob-mode-answer strong {
+  font-weight: 600;
+  color: #fff;
+}
+.ob-mode-answer code {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875em;
+}
+/* grid h-12 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-white/[0.06] border-t bg-black/[0.13] px-3 */
+.ob-mode-toolbar {
+  display: grid;
+  height: 48px;
+  flex-shrink: 0;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  background: rgb(0 0 0 / 0.13);
+  padding: 0 12px;
+  margin-top: auto;
+}
+.ob-mode-toolbar-start {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+.ob-mode-tools {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: rgb(255 255 255 / 0.66);
+}
+/* flex size-8 shrink-0 items-center justify-center rounded-lg; text-white when active, else white/64 */
+.ob-mode-tool {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.64);
+  transition: color 150ms;
+}
+.ob-mode-tool.is-active {
+  color: #fff;
+}
+.ob-mode-toolbar-end {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.7);
+}
+/* inline-flex h-6 min-w-6 rounded-md px-1.5 font-semibold text-[11px]; soft bg-white/[0.13] text-white/72,
+   strong bg-white/[0.2] text-white/84 */
+.ob-mode-key {
+  display: inline-flex;
+  height: 24px;
+  min-width: 24px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 0 6px;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+  background: rgb(255 255 255 / 0.13);
+  color: rgb(255 255 255 / 0.72);
+}
+.ob-mode-key-hist {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  padding: 0;
+}
+.ob-mode-key-strong {
+  position: relative;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.7rem;
+  padding: 0;
+  background: rgb(255 255 255 / 0.2);
+  color: rgb(255 255 255 / 0.78);
+}
+/* absolute top-[2.075rem] right-4 z-20 -translate-y-1/2; pulses scale [1,1,.92,1] over 1.9s */
+.ob-mode-send {
+  position: absolute;
+  top: 2.075rem;
+  right: 16px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  animation: ob-press 1.9s ease-in-out infinite;
+}
+@keyframes ob-press {
+  0%,
+  58% {
+    transform: translateY(-50%) scale(1);
+  }
+  68% {
+    transform: translateY(-50%) scale(0.92);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+/* rings: size-[5.4rem], rounded-[1.1rem] border border-white/28; opacity [0,.58,0], scale [.72,1,1.18],
+   1.45s ease-out, 0.16s apart, then 0.45s rest */
+.ob-mode-ripple {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5.4rem;
+  height: 5.4rem;
+  transform: translate(-50%, -50%);
+}
+.ob-mode-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.1rem;
+  border: 1px solid rgb(255 255 255 / 0.28);
+  opacity: 0;
+  animation: ob-mode-ring 1.9s ease-out infinite;
+}
+.ob-mode-ring.ob-ring-1 {
+  animation-delay: 0.16s;
+}
+.ob-mode-ring.ob-ring-2 {
+  animation-delay: 0.32s;
+}
+@keyframes ob-mode-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  38% {
+    opacity: 0.58;
+    transform: scale(1);
+  }
+  76%,
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+/* ---------- click-to-continue hints (listen, notes, undetectable) ---------- */
+
+/* The control to click: the onboarding blue, with blue rings. */
+.ob-tool.ob-tool-hint {
+  border-radius: 9px;
+  color: #fff;
+  background: radial-gradient(94.53% 94.53% at 55.79% 65.24%, #8dc7f6 0%, #497ee9 100%);
+  box-shadow: 0 0 0 1px #ffffff40, 0 4px 14px #497ee966;
+}
+.ob-session-stop.ob-stop-hint {
+  box-shadow: 0 0 0 3px #497ee9, 0 4px 14px #497ee999;
+}
+.ob-pulse-blue .ob-ring {
+  border: 1.5px solid #8dc7f6;
+}
+
+/* A tip under the control: "Click to start listening". */
+.ob-callout {
+  position: absolute;
+  z-index: 30;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  border-radius: 8px;
+  border: 1px solid #ffffff80;
+  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  padding: 6px 10px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  animation: ob-callout-bob 1.6s ease-in-out infinite;
+}
+.ob-callout-arrow {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #4f82ea;
+  border-left: 1px solid #ffffff80;
+  border-top: 1px solid #ffffff80;
+}
+@keyframes ob-callout-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 4px);
+  }
+}
+
+/* Skip on these pages: fades in shortly after the page opens, and goes once the step is done. */
+.ob-skip-wrap.ob-skip-quick.is-ready.is-shown {
+  transition-delay: 0s;
+}
+.ob-skip-wrap.is-gone {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* The ask page shows the whole shortcut (⌘ ↵), each in Cluely's keycap. */
+.ob-press-keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ob-press-glyph {
+  font-weight: 500;
+  font-size: 0.62em;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* ---------- choose your AI: API key, install command, Skip ---------- */
+
+/* An extra panel under the rows (install command, key field), in the rows' style. */
+.ob-extra {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -16px;
+  animation: ob-rise-8 0.2s ease-out both;
+}
+.ob-install-label {
+  font-size: 13px;
+  line-height: 18px;
+  color: rgb(255 255 255 / 0.42);
+}
+.ob-install {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgb(0 0 0 / 0.28);
+  padding: 6px 6px 6px 12px;
+}
+.ob-install-code {
+  min-width: 0;
+  flex: 1 1 0%;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgb(255 255 255 / 0.82);
+  user-select: text;
+  scrollbar-width: none;
+}
+.ob-copy {
+  display: inline-flex;
+  height: 28px;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  border-radius: 7px;
+  background: rgb(255 255 255 / 0.08);
+  padding: 0 10px;
+  font-weight: 500;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.82);
+  transition: background-color 150ms;
+}
+.ob-copy:hover {
+  background: rgb(255 255 255 / 0.14);
+}
+
+/* Key field: input and Save on one line. */
+.ob-key-field {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 6px;
+}
+.ob-key-row {
+  display: flex;
+  gap: 8px;
+}
+.ob-key-input {
+  min-width: 0;
+  flex: 1 1 0%;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(0 0 0 / 0.28);
+  padding: 0 12px;
+  font: inherit;
+  font-size: 13px;
+  color: #fff;
+  outline: none;
+  user-select: text;
+  transition: border-color 150ms;
+}
+.ob-key-input::placeholder {
+  color: rgb(255 255 255 / 0.3);
+}
+.ob-key-input:focus {
+  border-color: #497ee9;
+}
+.ob-key-save {
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid #ffffff80;
+  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  padding: 0 14px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+}
+.ob-key-save:disabled {
+  border-color: #ffffff14;
+  background: #ffffff0a;
+  color: #ffffff57;
+}
+.ob-key-error {
+  font-size: 12px;
+  line-height: 16px;
+  color: #fda4af;
+}
+
+.ob-setup .ob-full .ob-skip-wrap {
+  padding-top: 8px;
+}
+
+/* ---------- drawn pictures (onboarding.js: macAlert, settingsList, editorScreen) ---------- */
+
+/* A light macOS alert, sized by the picture classes above (.ob-dialog-sm, .ob-perm-dialog). */
+.ob-mac-alert {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 16px 16px;
+  color: #1d1d1f;
+  background: linear-gradient(160deg, #fbfbfb, #ececec);
+  border: 1px solid rgb(0 0 0 / 0.06);
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  text-align: left;
+}
+.ob-mac-alert-wide {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 18px 14px;
+}
+.ob-mac-alert-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+}
+.ob-mac-alert-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.ob-mac-alert-body {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #3a3a3c;
+}
+.ob-mac-alert-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.ob-dialog-sm .ob-mac-alert-buttons {
+  flex-direction: row;
+}
+.ob-mac-alert-wide .ob-mac-alert-buttons {
+  justify-content: flex-end;
+}
+.ob-mac-btn {
+  display: flex;
+  flex: 1;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  font-size: 12px;
+  color: #1d1d1f;
+  white-space: nowrap;
+  background: #e3e3e5;
+  border-radius: 999px;
+}
+.ob-mac-alert-wide .ob-mac-btn {
+  flex: 0 0 auto;
+  border-radius: 7px;
+}
+.ob-mac-btn.blue {
+  color: #fff;
+  background: #0a84ff;
+}
+/* "Quit and Reopen" above "Later", full width */
+.ob-dialog-sm:not(:has(.ob-mac-alert-icon)) .ob-mac-alert-buttons {
+  flex-direction: column;
+}
+
+/* Microphone tile: a grey rounded square with a mic and a small blue "privacy" badge. */
+.ob-mac-tile {
+  position: relative;
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(#a9a9ad, #8e8e93);
+  border-radius: 11px;
+}
+.ob-mac-tile-glyph {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+.ob-mac-badge {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 15px;
+  height: 15px;
+  background: #0a84ff;
+  border: 2px solid #f4f4f5;
+  border-radius: 5px;
+}
+
+/* Padlock with a red record badge. */
+.ob-mac-lock {
+  position: relative;
+  flex-shrink: 0;
+  width: 46px;
+  height: 52px;
+}
+.ob-mac-lock-shackle {
+  position: absolute;
+  top: 0;
+  left: 9px;
+  width: 24px;
+  height: 26px;
+  border: 5px solid #b5b5ba;
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+}
+.ob-mac-lock-body {
+  position: absolute;
+  top: 20px;
+  left: 2px;
+  width: 38px;
+  height: 30px;
+  background: repeating-linear-gradient(#f2b542 0 2px, #e3a12f 2px 3px);
+  border-radius: 5px;
+}
+.ob-mac-rec {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle, #fff 0 3px, #ff3b30 3.5px 5px, #fff 5.5px 6.5px, #ff3b30 7px);
+  border-radius: 5px;
+}
+
+/* System Settings pane: a sliver of sidebar, the title, then the app list. */
+.ob-mac-settings {
+  display: flex;
+  overflow: hidden;
+  height: auto;
+  aspect-ratio: 878 / 482;
+  color: #1d1d1f;
+  background: #f5f5f7;
+  border: 3px solid #d9d9dc;
+  border-radius: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  text-align: left;
+}
+.ob-mac-side {
+  flex: 0 0 9%;
+  background: #e8e8ea;
+  border-right: 1px solid rgb(0 0 0 / 0.06);
+}
+.ob-mac-pane {
+  flex: 1;
+  padding: 12px 14px 0;
+  overflow: hidden;
+}
+.ob-mac-pane-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ob-mac-pane-sub {
+  margin: 3px 0 10px;
+  font-size: 9.5px;
+  line-height: 1.35;
+  color: #6e6e73;
+}
+.ob-mac-list {
+  background: #fff;
+  border-radius: 9px;
+}
+.ob-mac-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 30px;
+  padding: 0 10px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.06);
+}
+.ob-mac-row-blur {
+  filter: blur(2.5px);
+  opacity: 0.75;
+}
+.ob-mac-app {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.ob-mac-app[data-hue='a'] { background: #7d9bd6; }
+.ob-mac-app[data-hue='b'] { background: #d98f6a; }
+.ob-mac-app[data-hue='c'] { background: #6a7ee8; }
+.ob-mac-app[data-hue='d'] { background: #8fbf7a; }
+.ob-mac-app-mark {
+  width: 16px;
+  height: 16px;
+}
+.ob-mark.ob-mac-app-mark {
+  color: #c98a2b; /* the waffle gold, so the mark shows on the white list */
+}
+.ob-mac-name {
+  flex: 1;
+  height: 8px;
+  max-width: 72px;
+  background: #c7c7cc;
+  border-radius: 4px;
+}
+.ob-mac-name-on {
+  height: auto;
+  max-width: none;
+  font-size: 11px;
+  background: none;
+}
+.ob-mac-switch {
+  position: relative;
+  width: 26px;
+  height: 15px;
+  background: #e0e0e3;
+  border-radius: 999px;
+}
+.ob-mac-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+.ob-mac-switch.on {
+  background: #0a84ff;
+}
+.ob-mac-switch.on::after {
+  left: 13px;
+}
+
+/* The ask demo's app: a dark video editor with two monitors and a timeline. */
+.ob-editor {
+  display: flex;
+  aspect-ratio: 1004 / 624;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+  background: #1b1b1d;
+}
+.ob-ed-top {
+  display: grid;
+  flex: 0 0 56%;
+  grid-template-columns: 14% 1fr 1fr;
+  gap: 4px;
+}
+.ob-ed-panel,
+.ob-ed-bin,
+.ob-ed-timeline {
+  background: #232326;
+  border-radius: 3px;
+}
+.ob-ed-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 8px 6px;
+}
+.ob-ed-line {
+  height: 3px;
+  background: #3a3a3f;
+  border-radius: 2px;
+}
+.ob-ed-line.w0 { width: 80%; }
+.ob-ed-line.w1 { width: 55%; }
+.ob-ed-line.w2 { width: 70%; }
+.ob-ed-line.w3 { width: 40%; background: #2f6fbf; }
+.ob-ed-monitor {
+  position: relative;
+  border-radius: 3px;
+}
+.ob-ed-forest {
+  background:
+    radial-gradient(ellipse at 30% 70%, #d8e2dc 0 12%, transparent 30%),
+    linear-gradient(170deg, #2f4a2a, #5f7b45 45%, #8d8a70 70%, #4a4b3e);
+}
+.ob-ed-sky {
+  background:
+    radial-gradient(ellipse at 40% 35%, #f2f4f7 0 14%, transparent 34%),
+    radial-gradient(ellipse at 75% 55%, #cfd6df 0 12%, transparent 30%),
+    linear-gradient(#5b86c4, #9fbbe0 60%, #3d4a55 92%);
+}
+.ob-ed-scrub {
+  position: absolute;
+  right: 6%;
+  bottom: 6%;
+  left: 6%;
+  height: 2px;
+  background: #4a4a4f;
+}
+.ob-ed-scrub::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 62%;
+  width: 6px;
+  height: 8px;
+  background: #3b8cf0;
+  border-radius: 1px;
+}
+.ob-ed-bottom {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 26% 1fr;
+  gap: 4px;
+}
+.ob-ed-bin {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: start;
+  gap: 5px;
+  padding: 6px;
+}
+.ob-ed-thumb {
+  aspect-ratio: 16 / 10;
+  border-radius: 2px;
+}
+.ob-ed-thumb.t0 { background: linear-gradient(#4b6b3c, #8a8d6c); }
+.ob-ed-thumb.t1 { background: linear-gradient(#7aa0d4, #c9d3de); }
+.ob-ed-thumb.t2 { background: linear-gradient(#3e5f86, #2a3442); }
+.ob-ed-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+}
+.ob-ed-track {
+  display: flex;
+  height: 16%;
+  gap: 2px;
+}
+.ob-ed-empty {
+  background: #29292c;
+}
+.ob-ed-clip {
+  border-radius: 2px;
+}
+.ob-ed-clip.v { background: #1f6e9a; }
+.ob-ed-clip.a { background: #2a8bb0; }
+.ob-ed-clip[data-w='1'] { flex: 1; }
+.ob-ed-clip[data-w='2'] { flex: 2; }
+.ob-ed-clip[data-w='3'] { flex: 3; }
+.ob-ed-clip[data-w='4'] { flex: 4; }
+.ob-ed-clip[data-w='5'] { flex: 5; }
+.ob-ed-playhead {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 58%;
+  width: 1px;
+  background: #3b8cf0;
+}

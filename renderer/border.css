@@ -1,0 +1,16 @@
+/* Undetectable mode's cue, drawn 8px outside the overlay's box (Cluely's values:
+   border-[4px] border-dotted border-[rgba(16,18,27,0.62)] rounded-[22px]). */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+.ring {
+  position: absolute;
+  inset: 0;
+  border: 4px dotted rgba(16, 18, 27, 0.62);
+  border-radius: 22px;
+  pointer-events: none;
+}
