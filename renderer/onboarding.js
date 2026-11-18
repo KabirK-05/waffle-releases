@@ -126,7 +126,7 @@ function restartAlert() {
     cls: 'ob-dialog-sm',
     title: '“Waffle” may not be able to record the contents of your screen until it is quit.',
     body: 'You can choose to quit “Waffle” now, or do it on your own later.',
-    buttons: [['Quit and Reopen', 'blue'], ['Later']],
+    buttons: [['Quit and Reopen', 'accent'], ['Later']],
   });
 }
 
@@ -138,7 +138,7 @@ function screenAlert() {
     iconEl: lock,
     title: '“Waffle” would like to record this computer’s screen and audio.',
     body: 'Grant access to this application in Privacy & Security settings, located in System Settings.',
-    buttons: [['Open System Settings'], ['Deny', 'blue']],
+    buttons: [['Open System Settings'], ['Deny', 'accent']],
   });
 }
 
@@ -361,7 +361,7 @@ function right(cls, ...children) {
 
 const caption = (...children) => h('div', { class: 'ob-caption' }, children);
 
-/** Cluely's onboarding button: primary (blue), ghost or secondary; full width (h-11) or fit. */
+/** Cluely's onboarding button: primary (gold), ghost or secondary; full width (h-11) or fit. */
 function button({ variant = 'primary', size = 'default', cls = '', onClick, disabled = false } = {}, ...children) {
   return h('button', { type: 'button', class: `ob-btn ob-btn-${variant} ob-btn-${size} ${cls}`, onClick, disabled }, children);
 }
@@ -463,7 +463,7 @@ function meetingStage(box, ...overlays) {
 }
 
 /**
- * A blue "click here" tip under a toolbar control. The box clips its contents, so the tip sits in
+ * A gold "click here" tip under a toolbar control. The box clips its contents, so the tip sits in
  * the stage beside it and is placed under the control once laid out.
  */
 function callout(text) {
@@ -510,7 +510,7 @@ function sessionControls({ onStop, startAt = 0, stopPulse = false, onStopButton 
     seconds += 1;
     clock.textContent = fmt(seconds);
   }, 1000);
-  const stopButton = h('button', { type: 'button', class: `ob-session-stop ${stopPulse ? 'ob-stop-hint' : ''}`, 'aria-label': 'Stop recording', onClick: onStop }, stopPulse && pulse('ob-pulse-sm ob-pulse-blue'), svg('0 0 24 24', LUCIDE.square, 'ob-s25 ob-rel', { fill: true }));
+  const stopButton = h('button', { type: 'button', class: `ob-session-stop ${stopPulse ? 'ob-stop-hint' : ''}`, 'aria-label': 'Stop recording', onClick: onStop }, stopPulse && pulse('ob-pulse-sm ob-pulse-gold'), svg('0 0 24 24', LUCIDE.square, 'ob-s25 ob-rel', { fill: true }));
   onStopButton?.(stopButton);
   return h(
     'div',
@@ -836,16 +836,16 @@ function cursorSvg() {
   add(filter, 'feOffset', { dy: 2 });
   add(filter, 'feGaussianBlur', { stdDeviation: 6 });
   add(filter, 'feComposite', { in2: 'hardAlpha', operator: 'out' });
-  add(filter, 'feColorMatrix', { type: 'matrix', values: '0 0 0 0 0.387565 0 0 0 0 0.762108 0 0 0 0 0.935677 0 0 0 0.4 0' });
+  add(filter, 'feColorMatrix', { type: 'matrix', values: '0 0 0 0 1 0 0 0 0 0.764706 0 0 0 0 0.184314 0 0 0 0.4 0' });
   add(filter, 'feBlend', { mode: 'normal', in2: 'BackgroundImageFix', result: 'effect1_dropShadow' });
   add(filter, 'feBlend', { mode: 'normal', in: 'SourceGraphic', in2: 'effect1_dropShadow', result: 'shape' });
   const grad = add(defs, 'radialGradient', { id: 'ob-cursor-fill', cx: 0, cy: 0, r: 1, gradientUnits: 'userSpaceOnUse', gradientTransform: 'matrix(-14.7669 -26.368 22.9633 -12.5987 24.5634 29.9302)' });
-  add(grad, 'stop', { offset: '0.198365', 'stop-color': '#1838C6' });
-  add(grad, 'stop', { offset: '0.633521', 'stop-color': '#4D95FA' });
+  add(grad, 'stop', { offset: '0.198365', 'stop-color': '#B8650A' });
+  add(grad, 'stop', { offset: '0.633521', 'stop-color': '#FFC32F' });
   add(grad, 'stop', { offset: '1', 'stop-color': 'white' });
   const g = add(el, 'g', { filter: 'url(#ob-cursor-shadow)' });
   add(g, 'path', { d: 'M12.9173 31.4558L12.0036 12.9242C11.8899 10.6176 14.5002 9.18544 16.4163 10.5032L31.81 21.0904C33.7497 22.3382 33.2143 25.2814 30.9568 25.7813L23.8152 26.9042C23.1633 27.0067 22.5685 27.333 22.1352 27.8259L17.3886 33.2254C15.764 34.8554 12.9585 33.7451 12.9173 31.4558Z', fill: 'url(#ob-cursor-fill)' });
-  add(g, 'path', { d: 'M12.7529 12.8877C12.6706 11.217 14.5737 10.1463 15.9912 11.1211L31.3848 21.708L31.4043 21.7217C32.772 22.6017 32.4109 24.6768 30.8096 25.0439L23.6982 26.1631C22.8745 26.2927 22.1219 26.7059 21.5723 27.3311L16.8457 32.7061C15.6763 33.8619 13.696 33.0491 13.667 31.4424V31.4307L13.666 31.4189L12.7529 12.8877Z', stroke: '#86DAE0', 'stroke-width': '1.5', class: 'ob-cursor-edge' });
+  add(g, 'path', { d: 'M12.7529 12.8877C12.6706 11.217 14.5737 10.1463 15.9912 11.1211L31.3848 21.708L31.4043 21.7217C32.772 22.6017 32.4109 24.6768 30.8096 25.0439L23.6982 26.1631C22.8745 26.2927 22.1219 26.7059 21.5723 27.3311L16.8457 32.7061C15.6763 33.8619 13.696 33.0491 13.667 31.4424V31.4307L13.666 31.4189L12.7529 12.8877Z', stroke: '#FFF1B8', 'stroke-width': '1.5', class: 'ob-cursor-edge' });
   return el;
 }
 
@@ -1105,7 +1105,7 @@ function askStep() {
   );
 }
 
-/** A keycap from the hide and move demos; lights up blue while held. */
+/** A keycap from the hide and move demos; lights up gold while held. */
 function keycap(kind, child) {
   return h('kbd', { class: `ob-kbd ob-kbd-${kind}` }, h('div', { class: 'ob-kbd-face' }, child));
 }
@@ -1250,7 +1250,7 @@ function listenStep() {
     sub.textContent = 'Waffle is hearing both your microphone and the person on the other side, and will use that audio context to help assist you.';
     paint();
   };
-  const audioBtn = h('button', { type: 'button', class: 'ob-tool ob-tool-btn ob-tool-hint', 'aria-label': 'Start listening session', onClick: start }, pulse('ob-pulse-sm ob-pulse-blue'), icon('audio-lines', 'ob-s19 ob-rel'));
+  const audioBtn = h('button', { type: 'button', class: 'ob-tool ob-tool-btn ob-tool-hint', 'aria-label': 'Start listening session', onClick: start }, pulse('ob-pulse-sm ob-pulse-gold'), icon('audio-lines', 'ob-s19 ob-rel'));
   const tip = callout('Click to start listening');
   const skip = skipLink(next);
 
@@ -1356,7 +1356,7 @@ function undetectableStep() {
   const [heading, headingText] = demoHeading(lines('Now, make Waffle', 'undetectable'));
   const sub = h('p', { class: 'ob-sub ob-sub-26' }, 'Click the eye icon in the toolbar to toggle undetectability.');
   const actionSlot = h('div', { class: 'ob-action ob-action-11' });
-  const hint = pulse('ob-pulse-sm ob-pulse-blue');
+  const hint = pulse('ob-pulse-sm ob-pulse-gold');
   const eyeBtn = h('button', { type: 'button', class: 'ob-tool ob-tool-btn ob-tool-hint', 'aria-label': 'Toggle undetectability', onClick: () => toggle() }, hint, icon('eye', 'ob-s18 ob-rel'));
   const ring = h('div', { class: 'ob-undetect-ring', 'aria-hidden': 'true' });
   const tip = callout('Click the eye');

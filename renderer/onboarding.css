@@ -26,6 +26,17 @@ body {
   background: #050708;
 }
 
+/* Waffle's gold, from the landing page (web/app/globals.css): --gold #ffc32f, --gold-light #ffdb62,
+   crust #743007. Accents are a glassy gold with dark brown text. */
+:root {
+  --gold: #ffc32f;
+  --gold-light: #ffdb62;
+  --gold-deep: #e0962a;
+  --gold-ink: #3d1c02;
+  --gold-glass: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #ffe27a 0%, #ffc32f 100%);
+  --gold-face: radial-gradient(94.53% 94.53% at 55.79% 65.24%, #ffe68f 0%, #ffc32f 100%);
+}
+
 h1,
 h2,
 h3 {
@@ -78,11 +89,11 @@ button:focus-visible {
 }
 
 .onboarding .ob-primary-button {
-  color: #fff;
-  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  color: var(--gold-ink);
+  background: var(--gold-glass);
   border: 1.5px solid #ffffff80;
   position: relative;
-  box-shadow: 0 4px 9px #009dff1a;
+  box-shadow: 0 4px 12px rgba(255, 195, 47, 0.22);
 }
 
 .onboarding .ob-primary-button::after {
@@ -257,7 +268,7 @@ button:focus-visible {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: radial-gradient(90% 80% at 50% 90%, rgba(41, 76, 93, 0.16), transparent 55%);
+  background: radial-gradient(90% 80% at 50% 90%, rgba(255, 195, 47, 0.07), transparent 55%);
 }
 
 /* z-10 flex h-full min-h-0 w-full min-w-0 max-w-full flex-col items-center justify-center */
@@ -319,11 +330,11 @@ button:focus-visible {
   padding: 0 16px;
 }
 .ob-btn-primary {
-  color: #fff;
-  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  color: var(--gold-ink);
+  background: var(--gold-glass);
   border: 1.5px solid #ffffff80;
   position: relative;
-  box-shadow: 0 4px 9px #009dff1a;
+  box-shadow: 0 4px 12px rgba(255, 195, 47, 0.22);
 }
 .ob-btn-primary::after {
   border-radius: inherit;
@@ -823,8 +834,8 @@ button:focus-visible {
   margin-top: 36px;
 }
 
-/* Keycaps (hide and move demos). Off: bg-white/10, face bg-white/[0.06]. Held: scale-95, a blue gradient
-   rim (#87C8F7 → #2383C7) and a radial blue face. */
+/* Keycaps (hide and move demos). Off: bg-white/10, face bg-white/[0.06]. Held: scale-95, a gold gradient
+   rim and a radial gold face. */
 .ob-keys-row {
   margin-top: 44px;
   display: flex;
@@ -863,11 +874,11 @@ button:focus-visible {
 }
 .ob-kbd.is-active {
   transform: scale(0.95);
-  background: linear-gradient(to bottom, #87c8f7, #2383c7);
-  color: #fff;
+  background: linear-gradient(to bottom, #ffeaa6, var(--gold-deep));
+  color: var(--gold-ink);
 }
 .ob-kbd.is-active .ob-kbd-face {
-  background: radial-gradient(94.53% 94.53% at 55.79% 65.24%, #8dc7f6 0%, #497ee9 100%);
+  background: var(--gold-face);
 }
 /* modifier: h-16 w-20 rounded-xl; face rounded-[12px] px-2 pb-2, justify-end */
 .ob-kbd-mod {
@@ -2175,18 +2186,18 @@ button:focus-visible {
 
 /* ---------- click-to-continue hints (listen, notes, undetectable) ---------- */
 
-/* The control to click: the onboarding blue, with blue rings. */
+/* The control to click: the onboarding gold, with gold rings. */
 .ob-tool.ob-tool-hint {
   border-radius: 9px;
-  color: #fff;
-  background: radial-gradient(94.53% 94.53% at 55.79% 65.24%, #8dc7f6 0%, #497ee9 100%);
-  box-shadow: 0 0 0 1px #ffffff40, 0 4px 14px #497ee966;
+  color: var(--gold-ink);
+  background: var(--gold-face);
+  box-shadow: 0 0 0 1px #ffffff40, 0 4px 14px rgba(255, 195, 47, 0.4);
 }
 .ob-session-stop.ob-stop-hint {
-  box-shadow: 0 0 0 3px #497ee9, 0 4px 14px #497ee999;
+  box-shadow: 0 0 0 3px var(--gold), 0 4px 14px rgba(255, 195, 47, 0.6);
 }
-.ob-pulse-blue .ob-ring {
-  border: 1.5px solid #8dc7f6;
+.ob-pulse-gold .ob-ring {
+  border: 1.5px solid var(--gold-light);
 }
 
 /* A tip under the control: "Click to start listening". */
@@ -2197,12 +2208,12 @@ button:focus-visible {
   white-space: nowrap;
   border-radius: 8px;
   border: 1px solid #ffffff80;
-  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  background: var(--gold-glass);
   padding: 6px 10px;
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
-  color: #fff;
+  color: var(--gold-ink);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   pointer-events: none;
   animation: ob-callout-bob 1.6s ease-in-out infinite;
@@ -2214,7 +2225,7 @@ button:focus-visible {
   width: 9px;
   height: 9px;
   transform: translateX(-50%) rotate(45deg);
-  background: #4f82ea;
+  background: #ffd658;
   border-left: 1px solid #ffffff80;
   border-top: 1px solid #ffffff80;
 }
@@ -2335,18 +2346,18 @@ button:focus-visible {
   color: rgb(255 255 255 / 0.3);
 }
 .ob-key-input:focus {
-  border-color: #497ee9;
+  border-color: var(--gold);
 }
 .ob-key-save {
   height: 36px;
   flex-shrink: 0;
   border-radius: 8px;
   border: 1px solid #ffffff80;
-  background: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #497ee9 0%, #648bec 100%);
+  background: var(--gold-glass);
   padding: 0 14px;
   font-weight: 500;
   font-size: 13px;
-  color: #fff;
+  color: var(--gold-ink);
 }
 .ob-key-save:disabled {
   border-color: #ffffff14;
@@ -2429,16 +2440,17 @@ button:focus-visible {
   flex: 0 0 auto;
   border-radius: 7px;
 }
-.ob-mac-btn.blue {
-  color: #fff;
-  background: #0a84ff;
+/* the default button in macOS's yellow accent */
+.ob-mac-btn.accent {
+  color: #3d2a00;
+  background: #ffc600;
 }
 /* "Quit and Reopen" above "Later", full width */
 .ob-dialog-sm:not(:has(.ob-mac-alert-icon)) .ob-mac-alert-buttons {
   flex-direction: column;
 }
 
-/* Microphone tile: a grey rounded square with a mic and a small blue "privacy" badge. */
+/* Microphone tile: a grey rounded square with a mic and a small yellow "privacy" badge. */
 .ob-mac-tile {
   position: relative;
   display: flex;
@@ -2460,7 +2472,7 @@ button:focus-visible {
   bottom: -5px;
   width: 15px;
   height: 15px;
-  background: #0a84ff;
+  background: #ffc600;
   border: 2px solid #f4f4f5;
   border-radius: 5px;
 }
@@ -2602,7 +2614,7 @@ button:focus-visible {
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
 }
 .ob-mac-switch.on {
-  background: #0a84ff;
+  background: #ffc600;
 }
 .ob-mac-switch.on::after {
   left: 13px;

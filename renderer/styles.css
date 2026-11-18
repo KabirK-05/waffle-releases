@@ -945,8 +945,10 @@ body.overlay-glass .chat {
 
 body.route-settings {
   --set-bg: #292626; /* Cluely's settings background */
-  --set-blue: #55b1e8;
-  --set-blue-btn: #2589d1;
+  --set-accent: #ffc32f; /* Waffle gold, as on the landing page */
+  --set-accent-text: #ffd35c;
+  --set-accent-ink: #3d1c02;
+  --set-accent-btn: radial-gradient(114.65% 114.65% at 9.73% 17.27%, #ffe27a 0%, #ffc32f 100%);
   background: var(--set-bg);
   color: rgba(255, 255, 255, 0.9);
   font-size: 13px;
@@ -1353,8 +1355,9 @@ body.route-settings {
 .btn.primary {
   height: 32px;
   padding: 0 12px;
-  color: #fff;
-  background: var(--set-blue-btn);
+  color: var(--set-accent-ink);
+  background: var(--set-accent-btn);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 2px 8px rgba(255, 195, 47, 0.18);
   border-radius: 8px;
 }
 
@@ -1373,7 +1376,7 @@ body.route-settings {
 }
 
 .btn.on {
-  color: var(--set-blue);
+  color: var(--set-accent-text);
 }
 
 .row input[type='text'],
@@ -1422,7 +1425,7 @@ body.route-settings {
 }
 
 .switch[aria-checked='true'] {
-  background: var(--set-blue);
+  background: var(--set-accent);
 }
 
 .switch[aria-checked='true']::after {
@@ -1879,7 +1882,7 @@ input.mode-title:focus {
 .link-btn {
   padding: 0;
   font-size: 11.5px;
-  color: #64b8f1;
+  color: var(--set-accent-text);
   background: none;
   border: 0;
   cursor: pointer;
@@ -2062,7 +2065,7 @@ input.mode-title:focus {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #64b8f1;
+  color: var(--set-accent-text);
 }
 
 /* ---------- settings: keyboard shortcuts (a table, as in Cluely) ---------- */
@@ -2177,7 +2180,7 @@ input.mode-title:focus {
 }
 
 .shortcut-press {
-  color: #64b8f1;
+  color: var(--set-accent-text);
 }
 
 .shortcut-reset {
@@ -3599,7 +3602,7 @@ body.route-settings * {
   border: 0;
   background: none;
   font: inherit;
-  color: var(--set-blue);
+  color: var(--set-accent-text);
   cursor: pointer;
 }
 .link-btn:hover {
@@ -3671,7 +3674,7 @@ body.route-settings * {
   padding: 12px 0;
 }
 .acct-note a {
-  color: var(--set-blue);
+  color: var(--set-accent-text);
   text-decoration: none;
 }
 .acct-note a:hover {
