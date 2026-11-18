@@ -54,5 +54,5 @@ module.exports = {
     artifactName: 'Waffle.dmg',
   },
   // Releases live in a separate public repo so the app's code can stay private.
-  publish: { provider: 'github', owner: 'KabirK-05', repo: 'waffle-releases', releaseType: 'release' },
+  publish: { provider: 'github', owner: 'KabirK-05', repo: 'waffle-releases', releaseType: 'draft' },
 };

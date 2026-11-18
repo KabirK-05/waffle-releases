@@ -63,6 +63,28 @@ if (!fs.existsSync(path.join(root, 'bin', 'waffle-speech'))) {
 const out = path.join(os.homedir(), 'Library', 'Caches', 'waffle-build');
 fs.rmSync(out, { recursive: true, force: true });
 
+// The DMG and ZIP upload in parallel, and each would create the GitHub release; the second
+// create is refused (422) and that target's files, latest-mac.yml among them, never upload.
+// So create the release first, as a draft that installed copies can't see yet, and publish it
+// once everything is up.
+const { version } = require(path.join(root, 'package.json'));
+const { owner, repo } = require(path.join(root, 'electron-builder.config.js')).publish;
+const gh = (...args) => spawnSync('gh', [...args, '-R', `${owner}/${repo}`], { encoding: 'utf8', env: process.env });
+if (publish) {
+  const existing = gh('release', 'view', `v${version}`, '--json', 'isDraft', '--jq', '.isDraft');
+  if (existing.status === 0 && existing.stdout.trim() === 'false') {
+    console.error(`v${version} is already published. Bump the version first: npm version patch --no-git-tag-version`);
+    process.exit(1);
+  }
+  if (existing.status !== 0) {
+    const made = gh('release', 'create', `v${version}`, '--draft', '--title', version, '--notes', `Waffle ${version}`);
+    if (made.status !== 0) {
+      console.error(`Could not create the v${version} release: ${made.stderr.trim()}`);
+      process.exit(1);
+    }
+  }
+}
+
 const builder = path.join(root, 'node_modules', 'electron-builder', 'cli.js');
 const args = [
   '--mac',
@@ -72,6 +94,21 @@ const args = [
 ];
 const result = spawnSync(process.execPath, [builder, ...args], { cwd: root, stdio: 'inherit', env: process.env });
 if (result.status !== 0) process.exit(result.status ?? 1);
+
+if (publish) {
+  const assets = gh('release', 'view', `v${version}`, '--json', 'assets', '--jq', '.assets[].name').stdout.split('\n');
+  const missing = ['Waffle.dmg', `Waffle-${version}-mac.zip`, 'latest-mac.yml'].filter((name) => !assets.includes(name));
+  if (missing.length) {
+    console.error(`Not published: the v${version} draft is missing ${missing.join(', ')}. Run npm run release again.`);
+    process.exit(1);
+  }
+  const done = gh('release', 'edit', `v${version}`, '--draft=false', '--latest');
+  if (done.status !== 0) {
+    console.error(`Uploaded, but publishing the v${version} draft failed: ${done.stderr.trim()}`);
+    process.exit(1);
+  }
+  console.log(`Published v${version}: https://github.com/${owner}/${repo}/releases/tag/v${version}`);
+}
 
 const dist = path.join(root, 'dist');
 fs.rmSync(dist, { recursive: true, force: true });
