@@ -26,7 +26,10 @@ module.exports = {
   asarUnpack: ['bin/waffle-speech', 'node_modules/audiotee/bin/**'],
   mac: {
     category: 'public.app-category.productivity',
-    icon: 'assets/icon.icns',
+    // Icon Composer format, compiled by Xcode 26's actool into Assets.car, so macOS 26 shows the
+    // icon as is instead of on a grey plate. Older macOS uses the icns generated alongside it.
+    // Rebuild both from assets/source/icon-art.webp with: swift scripts/build-icon.swift
+    icon: 'assets/Waffle.icon',
     target: [
       { target: 'dmg', arch: ['universal'] },
       { target: 'zip', arch: ['universal'] }, // electron-updater installs from the ZIP

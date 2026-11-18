@@ -1,6 +1,6 @@
 {
   "name": "waffle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Screen-aware overlay assistant",
   "main": "main.js",
   "scripts": {
