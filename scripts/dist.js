@@ -7,6 +7,7 @@
 
 const { execFileSync, spawnSync } = require('node:child_process');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
@@ -55,7 +56,27 @@ if (!fs.existsSync(path.join(root, 'bin', 'waffle-speech'))) {
   process.exit(1);
 }
 
+// Build outside the project folder. When it sits in an iCloud-synced folder (Desktop or
+// Documents), iCloud tags every file with Finder metadata and codesign refuses to sign them
+// ("resource fork, Finder information, or similar detritus not allowed"). The finished DMG,
+// ZIP and latest-mac.yml are copied back into dist/.
+const out = path.join(os.homedir(), 'Library', 'Caches', 'waffle-build');
+fs.rmSync(out, { recursive: true, force: true });
+
 const builder = path.join(root, 'node_modules', 'electron-builder', 'cli.js');
-const args = ['--mac', '--config', 'electron-builder.config.js', '--publish', publish ? 'always' : 'never'];
+const args = [
+  '--mac',
+  '--config', 'electron-builder.config.js',
+  `-c.directories.output=${out}`,
+  '--publish', publish ? 'always' : 'never',
+];
 const result = spawnSync(process.execPath, [builder, ...args], { cwd: root, stdio: 'inherit', env: process.env });
-process.exit(result.status ?? 1);
+if (result.status !== 0) process.exit(result.status ?? 1);
+
+const dist = path.join(root, 'dist');
+fs.rmSync(dist, { recursive: true, force: true });
+fs.mkdirSync(dist, { recursive: true });
+for (const name of fs.readdirSync(out)) {
+  if (/\.(dmg|zip|yml|blockmap)$/.test(name) && name !== 'builder-debug.yml') fs.copyFileSync(path.join(out, name), path.join(dist, name));
+}
+console.log(`Done: dist/${fs.readdirSync(dist).filter((n) => n.endsWith('.dmg')).join(', ')} (app bundle in ${out}/mac-universal)`);
