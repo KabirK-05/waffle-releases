@@ -28,9 +28,6 @@
   <img src="docs/readme/demo.png" width="760" alt="Waffle floating over a video call, suggesting what to say next">
 </p>
 
-> [!NOTE]
-> The first signed release isn't published yet, so the download button won't work until it is. Until then, [run it from source](#build-it-from-source).
-
 ## Why it's free
 
 Waffle has no server and no accounts. Your questions go from your Mac straight to the AI you choose, so there is nothing to charge for.
