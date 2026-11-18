@@ -1,4 +1,5 @@
 import Demo from '@/components/Demo';
+import Header from '@/components/Header';
 import { AppleIcon, ChatGPTIcon, ClaudeIcon, GitHubIcon } from '@/components/icons';
 import { Listening, Mover, Notes, Split, Tape } from '@/components/interactive';
 import { DOWNLOAD_URL, GITHUB_URL } from '@/lib/links';
@@ -64,16 +65,7 @@ const FAQ: [string, React.ReactNode][] = [
 export default function Page() {
   return (
     <>
-      <header className="nav">
-        <a className="brand" href="/">
-          <img src="/waffle.svg" alt="" width={30} height={30} />
-          waffle
-        </a>
-        <nav>
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer"><GitHubIcon size={17} /> github</a>
-          <a className="nav-cta" href={DOWNLOAD_URL}>download</a>
-        </nav>
-      </header>
+      <Header />
 
       <main>
         <section className="hero">
@@ -83,7 +75,7 @@ export default function Page() {
             <img src="/waffle.svg" alt="" /> waffle is free.
           </h1>
           <p className="lede">
-            the same kind of overlay for your meetings, hidden from screen share and open source. it runs on
+            the closest thing to cluely. it looks, feels and works the exact same, if not better. it runs on
             the <span className="chip"><ClaudeIcon size={16} /> claude</span> or{' '}
             <span className="chip"><ChatGPTIcon size={16} /> chatgpt</span> you already pay for.
           </p>

@@ -65,6 +65,34 @@ kbd {
 .nav nav .nav-cta { background: var(--ink); color: #fff; padding: 8px 14px; }
 .nav nav .nav-cta:hover { background: #2b2b31; }
 
+/* the header never leaves: at the top it is the full bar, further down a floating pill */
+body { padding-top: 62px; }
+.top { position: fixed; top: 0; left: 0; right: 0; z-index: 50; pointer-events: none; }
+.top .nav {
+  pointer-events: auto;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: max-width 0.45s cubic-bezier(0.3, 1, 0.3, 1), margin-top 0.3s, padding 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.top .brand span { display: inline-block; max-width: 80px; overflow: hidden; transition: max-width 0.3s, opacity 0.2s; }
+.top.pill-mode .nav {
+  max-width: 284px;
+  margin-top: 10px;
+  padding: 6px 6px 6px 10px;
+  background: rgba(22, 22, 24, 0.82);
+  border-color: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  color: #fff;
+}
+.top.pill-mode .brand { gap: 0; }
+.top.pill-mode .brand span { max-width: 0; opacity: 0; }
+.top.pill-mode nav a:hover { background: rgba(255, 255, 255, 0.12); }
+.top.pill-mode nav .nav-cta { background: #fff; color: var(--ink); }
+.top.pill-mode nav .nav-cta:hover { background: #ececec; }
+
+
 /* ---- hero ---- */
 .hero { padding: 68px 24px 0; text-align: center; }
 .hero h1 {
