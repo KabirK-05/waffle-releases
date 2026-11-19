@@ -1,4 +1,5 @@
 import Demo from '@/components/Demo';
+import DownloadThanks from '@/components/DownloadThanks';
 import Header from '@/components/Header';
 import { AppleIcon, ChatGPTIcon, ClaudeIcon, GitHubIcon } from '@/components/icons';
 import { Listening, Mover, Notes, Split, Tape } from '@/components/interactive';
@@ -66,6 +67,7 @@ export default function Page() {
   return (
     <>
       <Header />
+      <DownloadThanks />
 
       <main>
         <section className="hero">
