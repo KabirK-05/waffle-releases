@@ -83,7 +83,7 @@ const FOLLOW_UP_ACTIONS = ['followUp1', 'followUp2', 'followUp3'];
 const DEFAULT_STATE = {
   isInvisible: true, // hide every window from screenshots, recordings and screen shares
   noFocusWhenInvisible: false, // never take keyboard focus while invisible (Tab focuses on demand)
-  tabToFocus: true, // while a conversation is open, Tab focuses the follow-up bar (Cluely's "Tab to focus")
+  tabToFocus: true, // while the overlay is on screen, Tab focuses its input without activating Waffle
   openAtLogin: false,
   useScreen: true, // attach a screenshot to each question
   mode: 'general', // tailors answers to a scenario; see prompts.js
@@ -113,7 +113,7 @@ const VOLATILE = () => ({
   profilePhotoRev: 0, // bumps when the profile photo changes; 0 means there is none
   overlayVisible: true,
   chatOpen: false,
-  chatExpanded: false, // the overlay shows a conversation (set by the renderer); Tab to focus applies
+  chatExpanded: false, // the overlay shows a conversation (set by the renderer)
   isRecordingShortcut: false,
   isCapturingScreenshot: false,
   hasKey: false,
@@ -364,7 +364,7 @@ function applyState(before = {}) {
   if (before.isListening !== state.isListening) updateTray();
   if (!state.overlayVisible) hideModeMenu(); // the menu belongs to the overlay
   if (before.followUps !== state.followUps && !state.followUps) setFollowUps(0);
-  syncAskShortcut(); // only while the overlay is on screen
+  syncOverlayShortcuts(); // only while the overlay is on screen
   syncTabShortcut();
   syncFollowUpShortcuts();
 }
@@ -457,7 +457,11 @@ function createModeMenuWindow() {
   win.setContentProtection(state.isInvisible || state.isCapturingScreenshot);
   guardNavigation(win);
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'), { hash: 'modemenu' });
-  win.on('blur', hideModeMenu); // clicking anywhere else closes it
+  win.on('blur', () => {
+    hideModeMenu(); // clicking anywhere else closes it
+    syncTabShortcut();
+  });
+  win.on('focus', syncTabShortcut); // the menu reads Tab itself
   win.on('closed', () => {
     modeMenuWin = null;
   });
@@ -966,17 +970,23 @@ function focusChatInput() {
 }
 
 /**
- * Tab is the way into the overlay: always while it refuses focus, and (as in Cluely) while a
- * conversation is expanded and "Tab to focus" is on, so the follow-up bar can be focused from any app.
+ * Tab is the way into the overlay: always while it refuses focus, and whenever the overlay is on
+ * screen with "Tab to focus" on. The overlay is a non-activating panel, so focusing its input makes
+ * it the key window without activating Waffle: the app you were in stays frontmost (its menu bar and
+ * window stay as they were), which is less conspicuous to anyone watching the screen. Once the
+ * overlay has focus, Tab is released so it reaches Waffle's own windows normally.
  */
 function syncTabShortcut() {
   const shown = Boolean(chatWin && !chatWin.isDestroyed() && chatWin.isVisible());
   const settingsFocused = Boolean(settingsWin && !settingsWin.isDestroyed() && settingsWin.isFocused());
+  const menuFocused = Boolean(modeMenuWin && !modeMenuWin.isDestroyed() && modeMenuWin.isFocused());
   const wanted =
     shown &&
     !state.isRecordingShortcut &&
     !settingsFocused &&
-    ((!overlayFocusable() && !chatWin.isFocused()) || (state.tabToFocus && state.chatExpanded));
+    !menuFocused &&
+    !chatWin.isFocused() &&
+    (!overlayFocusable() || state.tabToFocus);
   if (wanted === tabShortcutActive) return;
   if (wanted) tabShortcutActive = globalShortcut.register('Tab', focusChatInput);
   else {
@@ -1041,6 +1051,19 @@ function syncFollowUpShortcuts() {
   }
 }
 
+/** Shortcuts held even while the overlay is hidden: only the one that brings it back. */
+const ALWAYS_ON_ACTIONS = new Set(['toggleOverlay']);
+
+let globalShortcutErrors = []; // always-on shortcuts that failed to register
+let overlayShortcutErrors = []; // overlay shortcuts that failed the last time they were wanted
+
+function publishShortcutErrors() {
+  const errors = [...globalShortcutErrors, ...overlayShortcutErrors];
+  if (errors.join() === state.shortcutErrors.join()) return;
+  state = { ...state, shortcutErrors: errors };
+  broadcast('shared-state-updated', state);
+}
+
 /** Rebinding works by dropping every accelerator and registering the current map again. */
 function registerShortcuts() {
   globalShortcut.unregisterAll();
@@ -1049,7 +1072,7 @@ function registerShortcuts() {
   // While setup is open its demos read ⌘\ and ⌘arrows from the page, so nothing global takes them.
   if (!state.isRecordingShortcut && !onboardingOpen()) {
     for (const [action, accelerator] of Object.entries(state.shortcuts)) {
-      if (!accelerator || !ACTIONS[action] || FOLLOW_UP_ACTIONS.includes(action) || action === 'ask') continue;
+      if (!accelerator || !ACTIONS[action] || !ALWAYS_ON_ACTIONS.has(action)) continue;
       let ok = false;
       try {
         ok = globalShortcut.register(accelerator, ACTIONS[action]);
@@ -1059,36 +1082,49 @@ function registerShortcuts() {
       if (!ok) errors.push(action);
     }
   }
-  askKey = null; // unregisterAll released it
-  if (syncAskShortcut() === false) errors.push('ask');
-  if (errors.join() !== state.shortcutErrors.join()) {
-    state = { ...state, shortcutErrors: errors };
-    broadcast('shared-state-updated', state);
-  }
+  globalShortcutErrors = errors;
+  overlayKeys = []; // unregisterAll released them
+  overlayWanted = '';
+  syncOverlayShortcuts();
+  publishShortcutErrors();
   syncTabShortcut();
   followUpKeys = []; // unregisterAll released them; register them again if their options show
   syncFollowUpShortcuts();
 }
 
 /**
- * The ask shortcut (⌘↵ by default) is held only while the overlay is on screen. Hidden, the keys go
- * to whatever app you're in, where ⌘↵ often means send or submit. Returns false if it was wanted
- * but another app owns it.
+ * Every shortcut except Show/Hide (ask, new chat, listen, move, scroll) is held only while the
+ * overlay is on screen. Hidden, the keys go to whatever app you're in, where ⌘R reloads and ⌘↵
+ * sends. Follow-up keys are handled separately by syncFollowUpShortcuts().
  */
-let askKey = null;
-function syncAskShortcut() {
+let overlayKeys = []; // accelerators currently registered
+let overlayWanted = ''; // the set last asked for, so a failed key isn't retried on every state patch
+function syncOverlayShortcuts() {
   const summoned = state.overlayVisible && chatWin && !chatWin.isDestroyed() && !state.isRecordingShortcut && !onboardingOpen();
-  const wanted = summoned ? state.shortcuts.ask || null : null;
-  if (wanted === askKey) return true;
-  if (askKey) globalShortcut.unregister(askKey);
-  askKey = null;
-  if (!wanted) return true;
-  try {
-    if (globalShortcut.register(wanted, ACTIONS.ask)) askKey = wanted;
-  } catch {
-    /* malformed accelerator */
+  const wanted = summoned
+    ? Object.entries(state.shortcuts).filter(
+        ([action, accel]) => accel && ACTIONS[action] && !ALWAYS_ON_ACTIONS.has(action) && !FOLLOW_UP_ACTIONS.includes(action),
+      )
+    : [];
+  const key = wanted.map((pair) => pair.join('=')).join('|');
+  if (key === overlayWanted) return;
+  overlayWanted = key;
+  for (const accel of overlayKeys) globalShortcut.unregister(accel);
+  overlayKeys = [];
+  const errors = [];
+  for (const [action, accel] of wanted) {
+    let ok = false;
+    try {
+      ok = globalShortcut.register(accel, ACTIONS[action]);
+    } catch {
+      ok = false; // malformed accelerator
+    }
+    if (ok) overlayKeys.push(accel);
+    else errors.push(action);
   }
-  return Boolean(askKey);
+  // Keep the last known failures while hidden, so Settings doesn't flicker between states.
+  if (summoned) overlayShortcutErrors = errors;
+  publishShortcutErrors();
 }
 
 // ---------- permissions & capture ----------

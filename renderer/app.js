@@ -491,7 +491,7 @@ function renderChat() {
     panel.classList.toggle('expanded', open);
     if (open !== sentExpanded) {
       sentExpanded = open;
-      api.patchState({ chatExpanded: open }); // main turns the Tab shortcut on while a conversation is open
+      api.patchState({ chatExpanded: open }); // drives the "Tab to focus" hint
     }
     panel.classList.toggle('history-open', inHistory);
     panel.classList.toggle('transcript-open', inTranscript);
@@ -1446,7 +1446,7 @@ function generalPane() {
       'Preferences',
       toggleRow('Undetectability', 'Hide Waffle from screen sharing, screenshots and recordings.', 'isInvisible', 'hat-glasses'),
       toggleRow('Stay unfocused while hidden', 'Never take keyboard focus on its own; press Tab to type.', 'noFocusWhenInvisible', 'app-window-mac'),
-      toggleRow('Tab to focus', 'While a conversation is open, press Tab from any app to type a follow-up.', 'tabToFocus', 'keyboard'),
+      toggleRow('Tab to focus', 'While the overlay is on screen, press Tab to type in it without leaving the app you are in.', 'tabToFocus', 'keyboard'),
       toggleRow('Attach a screenshot', 'Send what is on screen with each question.', 'useScreen', 'monitor'),
       toggleRow('Suggest follow-ups', 'Offer 2–3 next questions under each answer; press a number shortcut to ask one.', 'followUps', 'message-circle-more'),
       toggleRow('Open at login', 'Automatically open Waffle when you log in. Applies to the packaged app.', 'openAtLogin', 'power'),
