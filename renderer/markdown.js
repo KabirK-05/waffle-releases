@@ -140,5 +140,6 @@
   }
 
   window.renderMarkdown = render;
+  window.renderInlineMarkdown = inline; // one line, no block markup (follow-up options)
   window.renderMath = renderMath;
 })();

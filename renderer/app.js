@@ -839,6 +839,14 @@ function renderChat() {
 
   const followUpKey = (index) => formatAccelerator(state.shortcuts[`followUp${index + 1}`]);
 
+  /** An option's label, with inline Markdown and maths drawn like the answer's ($O(n)$, `code`). */
+  function followUpText(text) {
+    const span = h('span', { class: 'follow-text' });
+    span.innerHTML = window.renderInlineMarkdown(text); // escapes HTML before adding markup
+    window.renderMath(span);
+    return span;
+  }
+
   /** Numbered options under the newest answer; click one or press its hotkey to ask it. */
   function showFollowUps(options) {
     if (!turn || !options.length) return;
@@ -851,7 +859,7 @@ function renderChat() {
           'button',
           { class: 'follow-up', role: 'listitem', onClick: () => askFollowUp(index) },
           h('kbd', { class: 'keycap' }, followUpKey(index)),
-          h('span', { class: 'follow-text' }, text),
+          followUpText(text),
         ),
       ),
     );

@@ -516,6 +516,11 @@ body.overlay-glass .chat {
   min-width: 0;
 }
 
+.follow-text code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92em;
+}
+
 /* ---- toolbar ---- */
 
 .toolbar {
@@ -2305,7 +2310,8 @@ input.mode-title:focus {
 }
 
 /* Maths (KaTeX), as Cluely draws it: a little larger than the text, white like it. */
-.answer .katex {
+.answer .katex,
+.follow-text .katex {
   font-size: 1.1em;
   color: inherit;
 }

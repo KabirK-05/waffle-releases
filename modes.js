@@ -40,6 +40,7 @@ const BUILTIN_LOOK = {
   general: { group: '', icon: 'hero-s-document-text' },
   interview: { group: 'Looking for work', icon: 'hero-o-academic-cap' },
   behavioral: { group: 'Looking for work', icon: 'hero-o-chat-bubble-left-right' },
+  codingAssist: { group: 'Looking for work', icon: 'hero-o-bolt' },
   coding: { group: 'Looking for work', icon: 'hero-o-code-bracket' },
   systemDesign: { group: 'Looking for work', icon: 'hero-o-cpu-chip' },
   caseInterview: { group: 'Looking for work', icon: 'hero-o-presentation-chart-line' },
