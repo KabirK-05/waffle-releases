@@ -616,6 +616,32 @@ function renderChat() {
     return lines.concat(partials).sort((a, b) => a.start - b.start);
   }
 
+  const PARAGRAPH_CHARS = 180; // about three lines; past this the next sentence starts a new line
+  const RUN_ON_CHARS = 360; // speech with no full stops is broken at a word past this
+
+  /** One speaker's turn as short paragraphs, each starting at a new sentence. Greedy, so the
+   * breaks stay put while the words still being spoken grow. */
+  function transcriptParagraphs(text) {
+    const sentences = String(text).trim().split(/(?<=[.!?…])\s+/);
+    const paragraphs = [];
+    let current = '';
+    for (const sentence of sentences) {
+      if (current && current.length + sentence.length + 1 > PARAGRAPH_CHARS) {
+        paragraphs.push(current);
+        current = sentence;
+      } else current = current ? `${current} ${sentence}` : sentence;
+      // A long stretch with no sentence end: break at the last space before the limit.
+      while (current.length > RUN_ON_CHARS) {
+        const cut = current.lastIndexOf(' ', RUN_ON_CHARS);
+        if (cut <= 0) break;
+        paragraphs.push(current.slice(0, cut));
+        current = current.slice(cut + 1);
+      }
+    }
+    if (current) paragraphs.push(current);
+    return paragraphs;
+  }
+
   function renderTranscript() {
     const atEnd = transcriptList.scrollHeight - transcriptList.scrollTop - transcriptList.clientHeight < 24;
     const lines = transcriptLines();
@@ -624,7 +650,7 @@ function renderChat() {
         'div',
         { class: line.partial ? 't-row partial' : 't-row' },
         h('span', { class: 't-time' }, clock(line.start)),
-        h('div', { class: 't-body' }, h('div', { class: 't-who' }, speakerLabel(line.speaker)), h('div', { class: 't-text' }, line.text)),
+        h('div', { class: 't-body' }, h('div', { class: 't-who' }, speakerLabel(line.speaker)), h('div', { class: 't-text' }, ...transcriptParagraphs(line.text).map((p) => h('p', { class: 't-para' }, p)))),
       ),
     );
     if (!rows.length) {

@@ -2513,6 +2513,14 @@ body.overlay-glass .chat.history-open {
   overflow-wrap: anywhere;
 }
 
+.t-para {
+  margin: 0;
+}
+
+.t-para + .t-para {
+  margin-top: 8px;
+}
+
 /* Words still being spoken: lighter until the engine settles on them. */
 .t-row.partial .t-text {
   color: rgba(255, 255, 255, 0.55);
